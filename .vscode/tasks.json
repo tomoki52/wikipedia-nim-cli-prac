@@ -1,0 +1,19 @@
+{
+    "version": "2.0.0",
+    "taskName": "Run",
+    "command": "nim",
+    "args": [
+        "c",
+        "-d:ssl",
+        "-r",
+        "src/wikisearch.nim"
+    ],
+    "options": {
+        "cwd": "${workspaceRoot}"
+    },
+    "type": "shell",
+    "group": {
+        "kind": "build",
+        "isDefault": true
+    }
+}
