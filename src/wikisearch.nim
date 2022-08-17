@@ -1,5 +1,22 @@
-# This is just an example to get you started. A typical binary package
-# uses this file as the main entry point of the application.
+import std/uri
+import httpclient
+import strformat
+import json
+var word = encodeUrl("ラーメン")
 
-when isMainModule:
-  echo("Hello, World!")
+var URL = fmt"http://ja.wikipedia.org/w/api.php?format=json&action=query&list=search&srsearch={word}"
+
+type
+  Article = object
+    title: string
+    snippet: string
+
+var client = newHttpClient()
+let res: string = client.getContent(URL)
+let resJson: JsonNode = parseJson(res)
+echo resJson.pretty
+let 
+  resStr = to(resJson{"query","search"}, seq[Article])
+
+for article in resStr:
+  echo article.title
