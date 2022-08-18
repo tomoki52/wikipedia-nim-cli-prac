@@ -39,7 +39,6 @@ type
 proc searchArticle(word: string, sort: Sort, order: SortOrder, limit: int): WikiArticle =
   let
     qWord: string = encodeUrl(word)
-    qSort: string = $sort
     qLimit: int = limit
 
     url = fmt"http://ja.wikipedia.org/w/api.php?format=json&action=query&list=search&srsearch={qWord}&srlimit={qLimit}"
@@ -58,10 +57,13 @@ proc main =
 
   let serchResult = searchArticle(word, sort, order, limit)
   echo "totalhits:", serchResult.searchinfo.totalhits
-  echo"[title] pageid"
+  echo"[title] pageid wordcount"
   echo serchResult
     .search
-    .map(proc(a: Article): string = fmt"[{a.title}] {a.pageid}")
+    .sortedByIt(if sort == pageid: it.pageid else: it.wordcount)
+    .reversed
+    .map(proc(a: Article): string = fmt"[{a.title}] {a.pageid} {a.wordcount}")
+    
     .join("\n")
 
 
