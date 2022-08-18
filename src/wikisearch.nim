@@ -63,7 +63,6 @@ proc main =
     .sortedByIt(if sort == pageid: it.pageid else: it.wordcount)
     .reversed
     .map(proc(a: Article): string = fmt"[{a.title}] {a.pageid} {a.wordcount}")
-    
     .join("\n")
 
 
